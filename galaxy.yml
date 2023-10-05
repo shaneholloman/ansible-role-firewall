@@ -1,0 +1,52 @@
+### REQUIRED
+# underscores or numbers and cannot contain consecutive __underscores
+namespace: shaneholloman
+
+# The name of the collection. Has the same character restrictions as 'namespace'
+name: firewall
+
+# The version of the collection. Must be compatible with semantic versioning
+version: 1.0.0
+
+#  This path is relative to the root of the collection
+readme: README.md
+
+# Can be just the name or in the format 'Full Name <email> (url)
+# @nicks:irc/im.site#channel'
+authors:
+    - shaneholloman@gmail.com
+
+### OPTIONAL but strongly recommended
+# A short summary description of the collection
+description: An Ansible role to configure and manage firewall rules.
+
+license:
+    - MIT
+
+# mutually exclusive with 'license'
+license_file: ""
+
+# requirements as 'namespace' and 'name'
+tags:
+    - firewall
+    - security
+
+# range specifiers can be set and are separated by ','
+dependencies: {}
+
+# The URL of the originating SCM repository
+repository: https://github.com/shaneholloman/ansible-role-firewall
+
+# The URL to any online docs
+documentation: https://github.com/shaneholloman/ansible-role-firewall
+
+# The URL to the homepage of the collection/project
+homepage: https://github.com/shaneholloman/ansible-role-firewall
+
+# The URL to the collection issue tracker
+issues: https://github.com/shaneholloman/ansible-role-firewall/issues
+
+build_ignore:
+    - "demos"
+    - ".venv"
+    - "venv"
