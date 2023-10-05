@@ -1,7 +1,6 @@
 ---
 # This workflow requires a GALAXY_API_KEY secret present in the GitHub
 # repository or organization.
-# TODO: The way ansible galaxy keys are being handled has changed. Doc this out.
 # See: https://github.com/marketplace/actions/publish-ansible-role-to-galaxy
 # See: https://github.com/ansible/galaxy/issues/46
 
@@ -10,6 +9,7 @@ name: Release
   push:
     tags:
       - '*'
+  workflow_dispatch:
 
 defaults:
   run:
