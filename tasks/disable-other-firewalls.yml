@@ -1,16 +1,18 @@
 ---
+- name: Gather package facts (on RHEL).
+  ansible.builtin.package_facts:
+    manager: auto
+  when: ansible_os_family == "RedHat"
+
 - name: Check if firewalld package is installed (on RHEL).
-  command: yum list installed firewalld
-  register: firewalld_installed
-  ignore_errors: true
-  changed_when: false
+  ansible.builtin.set_fact:
+    firewalld_installed: "'firewalld' in ansible_facts.packages"
   when:
     - ansible_os_family == "RedHat"
     - firewall_disable_firewalld
-  check_mode: false
 
 - name: Disable the firewalld service (on RHEL, if configured).
-  service:
+  ansible.builtin.service:
     name: firewalld
     state: stopped
     enabled: false
@@ -19,18 +21,19 @@
     - firewall_disable_firewalld
     - firewalld_installed.rc == 0
 
-- name: Check if ufw package is installed (on Ubuntu).
-  command: service ufw status
-  register: ufw_installed
-  ignore_errors: true
-  changed_when: false
+- name: Gather facts about all services (on Ubuntu).
+  ansible.builtin.service_facts:
+  when: ansible_distribution == "Ubuntu"
+
+- name: Check if ufw service is running (on Ubuntu).
+  ansible.builtin.set_fact:
+    ufw_service_running: "'ufw' in ansible_facts.services and ansible_facts.services['ufw'].state == 'running'"
   when:
     - ansible_distribution == "Ubuntu"
     - firewall_disable_ufw
-  check_mode: false
 
 - name: Disable the ufw firewall (on Ubuntu, if configured).
-  service:
+  ansible.builtin.service:
     name: ufw
     state: stopped
     enabled: false
@@ -40,7 +43,7 @@
     - ufw_installed.rc == 0
 
 - name: Check if ufw package is installed (on ArchLinux).
-  command: pacman -Q ufw
+  ansible.builtin.command: pacman -Q ufw
   register: ufw_installed
   ignore_errors: true
   changed_when: false
@@ -50,7 +53,7 @@
   check_mode: false
 
 - name: Disable the ufw firewall (on ArchLinux, if configured).
-  service:
+  ansible.builtin.service:
     name: ufw
     state: stopped
     enabled: false
